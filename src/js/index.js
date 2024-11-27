@@ -39,71 +39,63 @@ formSearch.addEventListener('submit', handlerFormSubmit);
 
 async function handlerFormSubmit(evt) {
   evt.preventDefault();
-  // cleanGallery();
-  // const trimmedValue = input.value.trim();
-  // if (!trimmedValue) {
-  //   return;
-  // }
+  cleanGallery();
 
-  const trimmedValue = input.value;
+  const trimmedValue = input.value.trim();
+  console.dir(input);
   try {
     const { hits, totalHits } = await fetchImages(trimmedValue, pageNr);
 
-    console.log(hits);
-    renderImageList(hits);
+    // console.log(hits);
 
-    // if (hits.length === 0) {
-    //   Notiflix.Notify.failure(
-    //     'Sorry, there are no images matching your search query. Please try again.'
-    //   );
-    //   return;
-    // } else if (Math.ceil(totalHits / 40) === pageNr) {
-    //   renderImageList(hits);
-    //   btnLoadMore.style.display = 'none';
-    //   return Notiflix.Notify.info(
-    //     "We're sorry, but you've reached the end of search results."
-    //   );
-    // } else {
-    //   renderImageList(hits);
-    //   Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-    //   btnLoadMore.style.display = 'block';
-    //   gallerySimpleLightbox.refresh();
-    // }
-    // if (hits.length > 1 || hits.length < 40) {
-    //   btnLoadMore.style.display = 'none';
-    //   Notiflix.Notify.failure(
-    //     "We're sorry, but you've reached the end of search results."
-    //   );
-    // }
+    if (hits.length === 0) {
+      input.value = '';
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    } else if (Math.ceil(totalHits / 40) === pageNr) {
+      renderImageList(hits);
+      btnLoadMore.style.display = 'none';
+      return Notiflix.Notify.info(
+        "We're sorry, but you've reached the end of search results."
+      );
+    } else {
+      renderImageList(hits);
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+      btnLoadMore.style.display = 'block';
+      gallerySimpleLightbox.refresh();
+      input.value = '';
+    }
   } catch (error) {
     console.log(error);
   }
 }
 
-// btnLoadMore.addEventListener('click', handlerLoadMore);
+btnLoadMore.addEventListener('click', handlerLoadMore);
 
-// async function handlerLoadMore() {
-//   pageNr += 1;
-//   const trimmedValue = input.value.trim();
-//   btnLoadMore.style.display = 'none';
+async function handlerLoadMore() {
+  pageNr += 1;
+  const trimmedValue = input.value.trim();
+  btnLoadMore.style.display = 'none';
 
-//   const { hits, totalHits } = await fetchImages(trimmedValue, pageNr);
-//   if (hits.length === 0) {
-//     Notiflix.Notify.failure(
-//       'Sorry, there are no images matching your search query. Please try again.'
-//     );
-//     return;
-//   }
-//   renderImageList(hits);
-//   btnLoadMore.style.display = 'block';
+  const { hits, totalHits } = await fetchImages(trimmedValue, pageNr);
+  if (hits.length === 0) {
+    Notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+    return;
+  }
+  renderImageList(hits);
+  btnLoadMore.style.display = 'block';
 
-//   if (Math.ceil(totalHits / 40) === pageNr) {
-//     btnLoadMore.style.display = 'none';
-//     return Notiflix.Notify.info(
-//       "We're sorry, but you've reached the end of search results."
-//     );
-//   }
-// }
+  if (Math.ceil(totalHits / 40) === pageNr) {
+    btnLoadMore.style.display = 'none';
+    return Notiflix.Notify.info(
+      "We're sorry, but you've reached the end of search results."
+    );
+  }
+}
 
 function renderImageList(images) {
   // console.log(images, 'images');
@@ -140,12 +132,11 @@ function renderImageList(images) {
     </div>`;
     })
     .join('');
-  gallery.innerHTML = markup;
-  // gallery.insertAdjacentHTML('beforeend', markup);
+  gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-// function cleanGallery() {
-//   gallery.innerHTML = '';
-//   pageNr = 1;
-//   btnLoadMore.style.display = 'none';
-// }
+function cleanGallery() {
+  gallery.innerHTML = '';
+  pageNr = 1;
+  btnLoadMore.style.display = 'none';
+}
