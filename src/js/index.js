@@ -57,6 +57,7 @@ async function handlerFormSubmit(evt) {
     } else if (Math.ceil(totalHits / 40) === pageNr) {
       renderImageList(hits);
       btnLoadMore.style.display = 'none';
+      input.value = '';
       return Notiflix.Notify.info(
         "We're sorry, but you've reached the end of search results."
       );
