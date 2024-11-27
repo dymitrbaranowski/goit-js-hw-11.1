@@ -41,10 +41,13 @@ async function handlerFormSubmit(evt) {
   evt.preventDefault();
   cleanGallery();
 
-  const trimmedValue = input.value.trim();
+  const searchTrimmedQuery =
+    evt.currentTarget.elements.searchQuery.value.trim();
+  // console.dir(searchtrimmedQuery);
+  // const trimmedValue = input.value.trim();
   console.dir(input);
   try {
-    const { hits, totalHits } = await fetchImages(trimmedValue, pageNr);
+    const { hits, totalHits } = await fetchImages(searchTrimmedQuery, pageNr);
 
     // console.log(hits);
 
@@ -75,12 +78,14 @@ async function handlerFormSubmit(evt) {
 
 btnLoadMore.addEventListener('click', handlerLoadMore);
 
-async function handlerLoadMore() {
+async function handlerLoadMore(evt) {
   pageNr += 1;
-  const trimmedValue = input.value.trim();
+  const searchTrimmedQuery =
+    evt.currentTarget.elements.searchQuery.value.trim();
+  // const trimmedValue = input.value.trim();
   btnLoadMore.style.display = 'none';
 
-  const { hits, totalHits } = await fetchImages(trimmedValue, pageNr);
+  const { hits, totalHits } = await fetchImages(searchTrimmedQuery, pageNr);
   if (hits.length === 0) {
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
