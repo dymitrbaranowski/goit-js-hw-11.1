@@ -1,26 +1,8 @@
 // const BASE_URL = 'https://pixabay.com/api/';
 // const API_KEY = '38440528-27ad43a15fe64cab61d6047d1';
 
-// function fetchBooks() {
-//   const options = {
-//     key: 'BASE_URL',
-//     q: '',
-//     image_type: 'photo',
-//     orientation: 'horizontal',
-//     safesearch: 'true',
-//   };
-//   fetch(`${BASE_URL}?key=${API_KEY}`, options)
-//     .then(res => {
-//       if (!res.ok) {
-//         throw new Error(res.statusText);
-//       }
-//       return res.json();
-//     })
-//     .then(data => console.log(data))
-//     .catch(err => console.log(err));
-// }
-// fetchBooks();
-import { fetchImages } from '../js/fetchImages';
+import { fetchImages } from './js/fetchImages';
+import './css/styles.css';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
