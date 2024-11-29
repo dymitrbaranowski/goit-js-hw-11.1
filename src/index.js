@@ -76,6 +76,7 @@ async function handlerLoadMore(evt) {
   }
   renderImageList(hits);
   btnLoadMore.style.display = 'block';
+  gallerySimpleLightbox.refresh();
 
   if (Math.ceil(totalHits / 40) === pageNr) {
     btnLoadMore.style.display = 'none';
